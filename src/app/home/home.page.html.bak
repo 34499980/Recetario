@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Recetario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-button shape="round" style="align-content: right;" (click)="createReceta()">Crear</ion-button>
+    <br>
+  Lista de recetas 
+  
+  
+  <ion-grid>
+      <ion-row  *ngFor="let row of this._recetaService._recetario; let i = index"> 
+         <table>             
+              <tr>                       
+               <td style="width: 50%"><ion-button  color="light"  (click)="launchNext(i)">{{row.nombre}}</ion-button></td>           
+             </tr>
+            </table>
+      </ion-row>
+    </ion-grid>
+</ion-content>

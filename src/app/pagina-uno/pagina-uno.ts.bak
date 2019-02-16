@@ -1,0 +1,78 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {Receta} from '../Class/Receta'
+import { RecetasServiceService } from '../Services/recetas-service.service';
+import { Ingrediente } from '../Class/Ingrediente';
+
+@Component({
+  selector: 'PaginaUno',
+  templateUrl: './pagina-uno.html',
+  styleUrls: ['./pagina-uno.scss'],
+})
+export class PaginaUno implements OnInit {
+_recetaService: RecetasServiceService
+_ingrediente: Ingrediente;
+_ingredientes: Array<Ingrediente> = new Array<Ingrediente>();
+_receta: Receta;
+nombre: String
+descReceta: String;
+  constructor(private router: Router,private recetaServices: RecetasServiceService) {
+     this._recetaService = recetaServices; 
+     this.recetaServices.getRecetario()
+     .map(data => this._receta= this.recetaServices._receta,
+       this.nombre = this.recetaServices._receta.nombre != undefined? this.recetaServices._receta.nombre: ''       
+     ).map(data => this._receta.descripcion = this.recetaServices._receta.descripcion != undefined? this.recetaServices._receta.descripcion: '',
+   this.descReceta = this.recetaServices._receta.descripcion != undefined? this.recetaServices._receta.descripcion: ''
+     ).map(data => this._ingredientes = this.recetaServices._receta.Ingredientes != undefined? this.recetaServices._receta.Ingredientes: new Array<Ingrediente>() 
+     )
+     if(this._recetaService._receta == undefined){ 
+      this._receta= new Receta();          
+      this._receta.Ingredientes = new Array<Ingrediente>();
+   } else{
+     this._receta = this._recetaService._receta;       
+   }
+   }
+
+  ngOnInit() { 
+
+  }
+
+  launchBack(){
+    this.router.navigateByUrl('home')
+  }
+addItem(ingrediente,cantidad){
+  if(ingrediente != null && cantidad != null){   
+   this._ingrediente = new Ingrediente();
+   this._ingrediente.nombre = ingrediente;
+   this._ingrediente.cant = cantidad;
+   this._ingredientes.push(this._ingrediente);
+  }
+}
+removeItem(item, i){
+  this._ingredientes.splice(i,1);  
+}
+saveReceta(descReceta: String){ 
+  let rec = this.recetaServices._recetario.findIndex(item => item.nombre == this.nombre)
+  if(rec == -1  && this.nombre != "" && this._receta.nombre == undefined)
+  {
+    this._receta.nombre = this.nombre;    
+    this._receta.descripcion = descReceta;
+    this._receta.Ingredientes = this._ingredientes
+    this._recetaService.createReceta(this._receta);    
+  }else{  
+    if(this.nombre != ""){
+      this._receta.nombre = this.nombre;
+      this._receta.descripcion = this.descReceta;
+      this._receta.Ingredientes = this._ingredientes 
+    }
+  }
+  this.launchBack();
+  
+}
+removeReceta(nombreReceta: String){
+  let receta = this._recetaService._recetario.findIndex(item => item.nombre== nombreReceta)
+  this._recetaService.removeReceta(receta);
+  this.launchBack();
+}
+
+}
