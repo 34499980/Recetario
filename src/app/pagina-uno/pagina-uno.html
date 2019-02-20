@@ -1,13 +1,13 @@
-<ion-header style="background-color:rgba(255, 228, 181, 0.87); padding: 0px; margin: 0px">
-  <ion-toolbar style="background-color:rgba(255, 228, 181, 0.87)">
-    <ion-title style="height: 90%;background-color: khaki"><ion-textarea  placeholder="Nombre de receta"[(ngModel)]="nombre"></ion-textarea></ion-title>
+<ion-header class="backgroundScreen" >
+  <ion-toolbar class="backgroundScreen">
+    <ion-title autocapitalize="on" style="height: 90%;background-color: khaki"><ion-textarea  placeholder="Nombre de receta"[(ngModel)]="nombre"></ion-textarea></ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding> 
+<ion-content> 
 
   <br> 
-  <div style="height: 90%;background-color:rgba(255, 228, 181, 0.87)" scrolling="yes">
+  <div class="backgroundScreen" style="height: 90%;" scrolling="yes">
   <table >
     
     <tr>
@@ -43,12 +43,12 @@
   </table>
 </div>
 <table style="width: 100%"  >
-  <ion-row colspan="3" style="width: 330px; background-color: white">
-    <ion-col style=" background-color: white" >
+  <ion-row colspan="3" style="background-color: white">
+    <ion-col style="align-items: center;align-content: center;  background-color: white" colspan="1">
        <ion-button color="light" ion-button block (click)="launchBack()">Back</ion-button>
     </ion-col >
-    <ion-col style=" background-color: white"><ion-button ion-button block color="danger" size="small" (click)="removeReceta(nombre)">Delete</ion-button></ion-col>
-    <ion-col style=" background-color: white"><ion-button ion-button block (click)="saveReceta(descReceta)">Save</ion-button></ion-col>
+    <ion-col style="align-items: center;align-content: center;  background-color: white " colspan="1"><ion-button ion-button block color="danger" size="small" (click)="removeReceta(nombre)">Delete</ion-button></ion-col>
+    <ion-col style="align-items: right;align-content: right;  background-color: white" colspan="1"><ion-button ion-button block (click)="saveReceta(descReceta)">Save</ion-button></ion-col>
   </ion-row>
 </table>
 

@@ -1,1 +1,17 @@
 
+.backgroundScreen{
+    background-color:rgb(255, 245, 98);
+    padding: 0px; margin: 0px;
+}
+.spinnerCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:fixed;
+    top:50%;
+    left:50%
+}
+.spinner svg {
+    width: 16px !important;
+    height: 16px !important;
+  }

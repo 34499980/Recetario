@@ -6,29 +6,38 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <table>
-    <tr aria-colspan="3" style="width: 100%">
+<ion-content >
+    <div class="backgroundScreen" style="height: 90%;" scrolling="yes">
+        <ion-spinner name="circles" class="spinnerCenter" [style.visibility]="this._recetaService._recetasFiltradas == undefinded ? 'visible' : 'hidden'"></ion-spinner>
+  <table style="width: 100%">
+    <div style="background-color: deepskyblue">
+    <tr aria-colspan="6" style="width: 100%">
       <td></td>
       <td></td>
     <td  aria-colspan="3" style="width: 30%"><ion-button shape="round" style="align-content: right;" (click)="createReceta()">Crear</ion-button></td>
   </tr>
-<tr>
-  <td><input class="search-box" style="border-radius: 20px;" type="text" placeholder="Search..." ng-model="gridFilterValue" ng-change="" /></td>
+<tr style="width: 100%" aria-colspan="6">
+  <td><ion-searchbar aria-colspan="3" class="search-box" style="border-radius: 20px;" type="text" placeholder="Search..." [(ngModel)]="searchItem" (ionInput)="Filtrar(searchItem)" ></ion-searchbar></td>
 </tr>
+</div>
   <tr>
-  <td>Lista de recetas </td>
+ <ion-label color="white" style="background-color: cornflowerblue; width:100%">Lista de recetas</ion-label>
 </tr> 
+
   <tr>
     <td>
+       
   <ion-grid>
-      <ion-row  *ngFor="let row of this._recetaService._recetas; let i = index"> 
+     
+      <ion-row  *ngFor="let row of this._recetaService._recetasFiltradas; let i = index"> 
         <ion-col>                             
-        <span  style="color: blue"  (click)="launchNext(i)"><u>{{row.nombre}}</u></span>         
+        <span  style="color: blue"  (click)="launchNext(i)" autocapitalize="on"><u>{{row.nombre}}</u></span>         
       </ion-col>
       </ion-row>
     </ion-grid>
   </td>
   </tr>
   </table>
+  </div>
+ 
 </ion-content>

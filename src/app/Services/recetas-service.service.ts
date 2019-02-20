@@ -15,6 +15,7 @@ export class RecetasServiceService {
   _receta : Receta;
   _recetas: any;
    db: any;
+   _recetasFiltradas: any;
   constructor(database: AngularFireDatabase) {   
     this.db = database.list('/Recetas')
     this.getRecetario()
@@ -34,7 +35,7 @@ export class RecetasServiceService {
   //  const recet: firebase.database.Reference = firebase.database().ref('/'+receta.nombre+'/');
   //  recet.set({receta})
    receta.key = this.db.push(receta).key
-   receta.key = receta.key.substring(receta.key.lastIndexOf('-'))
+   //receta.key = receta.key.substring(1)
    this.updateReceta(receta)
   }
   public removeReceta(receta: Receta){
@@ -49,7 +50,8 @@ export class RecetasServiceService {
                                Ingredientes: receta.Ingredientes})
   }
 public getRecetario(){
-  this.db.valueChanges().subscribe(data => {console.log(data,this._recetas=data)})
+  this.db.valueChanges().subscribe(data => {this._recetas=data, this._recetasFiltradas=data}
+   )
  
 }
 }
