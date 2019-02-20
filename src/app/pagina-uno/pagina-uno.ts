@@ -21,9 +21,11 @@ txtIngrediente: String;
 txtCantidad: String;
 descReceta: String;
 _toast : any;
+flag: boolean;
   constructor(private router: Router,private recetaServices: RecetasServiceService, toastCtrl: ToastController) {
      this._recetaService = recetaServices;  
-     this._toast = toastCtrl;  
+     this._toast = toastCtrl; 
+     this.flag = false; 
      if(this._recetaService._receta == undefined){ 
       this._receta = new Receta();          
       this._receta.Ingredientes = new Array<Ingrediente>();
@@ -50,39 +52,58 @@ addItem(ingrediente,cantidad){
    this._ingredientes.push(this._ingrediente);
    this.txtIngrediente = "";
    this.txtCantidad = "";
+   this.flag = true;
 
   }
 }
 removeItem(item, i){
+  this.flag = true;
   this._ingredientes.splice(i,1);  
 }
 saveReceta(descReceta: String){ 
   if(this.nombre != "" || this._receta.nombre == undefined){
     let rec = this.recetaServices._recetas.findIndex(item => item.nombre.toLowerCase() == this.nombre.toLowerCase())
-    if(this._receta.nombre != undefined && rec == -1){
-      this._receta.nombre = this.nombre.toLowerCase();
-      this._receta.descripcion = this.descReceta;
-      this._receta.Ingredientes = this._ingredientes 
-      this._recetaService.updateReceta(this._receta)
-      this.launchBack();
-    }else{
-      if(rec == -1)
-      {
+    if(rec == -1 && this._receta.nombre == undefined){      
         this._receta.nombre = this.nombre.toLowerCase();    
         this._receta.descripcion = this.descReceta;
         this._receta.Ingredientes = this._ingredientes
         this._recetaService.createReceta(this._receta);
-        this.launchBack();    
+        this.launchBack(); 
       }else{
-        let toast = this._toast.create({
-          message: 'La receta ya existe. Elija otro nombre!',
-          duration: 3000,
-          position: 'top'
-        });        
-       // this._toast.present(toast)
+        if(rec != -1 && this.flag == true || this._receta.descripcion != this.descReceta){
+          this._receta.nombre = this.nombre.toLowerCase();
+          this._receta.descripcion = this.descReceta;
+          this._receta.Ingredientes = this._ingredientes 
+          this._recetaService.updateReceta(this._receta);
+          this.launchBack();
+       /* }
+        if(this._receta.nombre != undefined && this.flag == true || this._receta.descripcion != this.descReceta){
+        this._receta.nombre = this.nombre.toLowerCase();
+        this._receta.descripcion = this.descReceta;
+        this._receta.Ingredientes = this._ingredientes 
+        this._recetaService.updateReceta(this._receta);
+        this.launchBack();*/
+        }else{
+          if(rec == -1 &&  this._receta.nombre != this.nombre.toLowerCase()){
+            this._receta.nombre = this.nombre.toLowerCase();
+            this._receta.descripcion = this.descReceta;
+            this._receta.Ingredientes = this._ingredientes 
+            this._recetaService.updateReceta(this._receta);
+            this.launchBack();
+          }else{
+          let toast = this._toast.create({
+            message: 'La receta ya existe. Elija otro nombre!',
+            duration: 3000,
+            position: 'top'
+          });        
+         // this._toast.present(toast)
+        }
       }
     }
-  }    
+  }
+      
+    
+   
  
   
 }

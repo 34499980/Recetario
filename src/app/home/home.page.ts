@@ -4,7 +4,7 @@ import { RecetasServiceService } from '../Services/recetas-service.service';
 import { Receta } from '../Class/Receta';
 import { Ingrediente } from '../Class/Ingrediente';
 import * as firebase from 'Firebase';
-import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -24,14 +24,14 @@ export class HomePage {
   
    
   }
-  public Filtrar(searchItem){
+  public Filtrar(searchItem: String){    
     if(searchItem==" " || searchItem==undefined || searchItem.length-1 == 0){
       this._recetaService._recetasFiltradas = this._recetaService._recetas 
     }else{
       this._recetaService._recetasFiltradas = new Array<Receta>();  
       for(let index in this._recetaService._recetas){
         let rec = this._recetaService._recetas[index] as Receta
-        if(rec.nombre.indexOf(searchItem) != -1){
+        if(rec.nombre.indexOf(searchItem.toLowerCase()) != -1){
           this._recetaService._recetasFiltradas.push(rec)
         }
 
